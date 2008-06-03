@@ -5,6 +5,8 @@ interface AclInterface
 
 	public function check(RoleInterface $role, ResourceInterface $resource, PermissionInterface $permission);
 	
+	public function reset();
+	
 	public function addRole(RoleInterface $role, $parents = array());
 	public function deleteRole(string $roleId);
 	public function deleteAllRoles();

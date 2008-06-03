@@ -11,22 +11,37 @@ require_once 'acl/Resource.php';
 require_once 'acl/Store/MySqlStore.php';
 
 // Create an Acl instance
-$acl = new Acl(new MysqlStore(array('dbhost' => '127.0.0.1',
-									'dbport' => '8889', 
-									'dbname' => 'acl_test',
-									'dbuser' => 'root',
-									'dbpass' => 'root',
-									'prefix' => ''
-									)));
+$store = new MysqlStore(array('dbhost' => '127.0.0.1',
+							  'dbport' => '8889', 
+							  'dbname' => 'acl_test',
+							  'dbuser' => 'root',
+							  'dbpass' => 'root',
+							  'prefix' => ''));
+$acl = new Acl($store);
+
+// Resetting acl
+echo "Resetting Acl...";
+echo $acl->reset() ? 'ok' : 'error';
+echo "<br />";
 
 // Add some new roles
+echo "Adding role 'guest'...";
 echo $acl->addRole(new Role('guest')) ? 'ok' : 'error';
-$acl->addRole(new Role('registered'));
-$acl->addRole(new Role('admin'));
+echo "<br />";
+echo "Adding role 'registered'...";
+echo $acl->addRole(new Role('registered')) ? 'ok' : 'error';
+echo "<br />";
+echo "Adding role 'admin'...";
+echo $acl->addRole(new Role('admin')) ? 'ok' : 'error';
+echo "<br />";
 
 // Create some users
-$acl->addRole(new Role('Bob'), array($acl->getRole('guest'), $acl->getRole('registered')));
-$acl->addRole(new Role('Claire'), array('guest'));
+echo "Adding role 'Bob' to groups 'guest' and 'registered'...";
+echo $acl->addRole(new Role('Bob'), array($acl->getRole('guest'), $acl->getRole('registered'))) ? 'ok' : 'error';
+echo "<br />";
+echo "Adding role 'Claire' to group 'guest'...";
+echo $acl->addRole(new Role('Claire'), array('guest')) ? 'ok' : 'error';
+echo "<br />";
 
 // Add some resources
 $acl->addResource(new Resource('forum'));

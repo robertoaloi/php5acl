@@ -18,6 +18,19 @@ class Acl implements AclInterface
 		
 	}
 	
+	public function reset()
+	{
+		if ($this->deleteAllRoles())
+			if ($this->deleteAllResources())
+				if ($this->deleteAllPermissions())
+					if ($this->deleteAllRules())
+						return true;
+					return false;
+				return false;
+			return false;
+		return false;
+	}
+	
 	public function addRole(RoleInterface $role, $parents = array())
 	{
 		$roleId = $role->getId();
@@ -63,19 +76,25 @@ class Acl implements AclInterface
 	
 	public function deleteAllResources()
 	{
-		
+		return $this->_store->deleteAllResources();
 	}
 	
 	public function resourceExists(string $resourceId){}
 	
 	public function addPermission(Permission $resource){}
 	public function deletePermission(string $permissionId){}
-	public function deleteAllPermissions(){}
+	public function deleteAllPermissions()
+	{
+		return $this->_store->deleteAllPermissions();
+	}
 	public function permissionExists(string $permissionId){}
 	
 	public function addRule(Rule $rule){}
 	public function deleteRule(string $ruleId){}
-	public function deleteAllRules(){}
+	public function deleteAllRules()
+	{
+		return $this->_store->deleteAllRules();
+	}
 	public function ruleExists(string $ruleId){} // FIXME: Not sure about its utility
 	
 }
