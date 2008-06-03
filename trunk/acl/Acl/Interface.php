@@ -7,7 +7,7 @@ interface AclInterface
 	
 	public function reset();
 	
-	public function addRole(RoleInterface $role, $parent = null);
+	public function addRole(RoleInterface $role, RoleInterface $parent = null);
 	public function deleteRole(string $roleId);
 	public function deleteAllRoles();
 	public function roleExists($roleId);

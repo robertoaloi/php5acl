@@ -43,7 +43,7 @@ echo "Adding role 'Bob' to group 'registered'...";
 echo $acl->addRole(new Role('Bob'), $acl->getRole('registered')) ? 'ok' : 'error';
 echo "<br />";
 echo "Adding role 'Claire' to group 'guest'...";
-echo $acl->addRole(new Role('Claire'), array('guest')) ? 'ok' : 'error';
+echo $acl->addRole(new Role('Claire'), $acl->getRole('guest')) ? 'ok' : 'error';
 echo "<br />";
 
 // Add some resources
