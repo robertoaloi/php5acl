@@ -12,9 +12,10 @@ class MySQLStore implements StoreInterface
 	private $_dbpass;
 	private $_prefix;
 	
-	const ROLES = 'roles';
-	const RESOURCES = 'resources';
-	const PERMISSIONS = 'permissions';
+	private $_map = array('ROLE' => 'roles',
+						  'RESOURCE' => 'resources',
+						  'PERMISSION' => 'permissions',
+						  'RULE' => 'rules');
 	
 	private $_link; //FIXME: close connections!!!
 	
@@ -66,7 +67,7 @@ class MySQLStore implements StoreInterface
 	
 	public function deleteAllEntries($entryType)
 	{
-		return $this->query("TRUNCATE TABLE ") ? true : false;
+		return $this->query('TRUNCATE TABLE ' . $this->_map[(string) $entryType]) ? true : false;
 	}
 	
 	public function getRole($roleId)
@@ -78,9 +79,9 @@ class MySQLStore implements StoreInterface
 		return null;
 	}
 	
-	public function roleExists($roleId)
+	public function entryExists($entryId, $entryType)
 	{
-		if ($this->getRole($roleId))
+		if ($this->getEntry($entryId, (string) $entryType))
 			return true;
 		else
 			return false;
