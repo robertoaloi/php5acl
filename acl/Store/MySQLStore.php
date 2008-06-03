@@ -86,9 +86,11 @@ class MySQLStore implements StoreInterface
 	
 	public function getRole($roleId)
 	{
-		$result = $this->query("SELECT * FROM roles WHERE id = '" . $roleId . "'");
-		if (mysql_fetch_row($result))
-			return new Role($result['id']); // FIXME: Break encapsulation
+		$result = $this->query("SELECT id FROM roles WHERE id = '" . $roleId . "'");
+		if ($row = mysql_fetch_object($result)){
+			print_r($row);
+			return new Role($row->id); // FIXME: Break encapsulation
+		}
 		return null;
 	}
 	
