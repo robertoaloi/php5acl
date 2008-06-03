@@ -25,19 +25,22 @@ echo $acl->reset() ? 'ok' : 'error';
 echo "<br />";
 
 // Add some new roles
-echo "Adding role 'guest'...";
-echo $acl->addRole(new Role('guest')) ? 'ok' : 'error';
+echo "Adding role 'user'...";
+echo $acl->addRole(new Role('user')) ? 'ok' : 'error';
 echo "<br />";
-echo "Adding role 'registered'...";
-echo $acl->addRole(new Role('registered')) ? 'ok' : 'error';
+echo "Adding role 'guest' as child of 'user'...";
+echo $acl->addRole(new Role('guest'), $acl->getRole('user')) ? 'ok' : 'error';
 echo "<br />";
-echo "Adding role 'admin'...";
-echo $acl->addRole(new Role('admin')) ? 'ok' : 'error';
+echo "Adding role 'registered' as child of 'user'...";
+echo $acl->addRole(new Role('registered'), $acl->getRole('user')) ? 'ok' : 'error';
+echo "<br />";
+echo "Adding role 'admin' as child of 'registered'...";
+echo $acl->addRole(new Role('admin'), $acl->getRole('registered')) ? 'ok' : 'error';
 echo "<br />";
 
 // Create some users
-echo "Adding role 'Bob' to groups 'guest' and 'registered'...";
-echo $acl->addRole(new Role('Bob'), array($acl->getRole('guest'), $acl->getRole('registered'))) ? 'ok' : 'error';
+echo "Adding role 'Bob' to group 'registered'...";
+echo $acl->addRole(new Role('Bob'), $acl->getRole('registered')) ? 'ok' : 'error';
 echo "<br />";
 echo "Adding role 'Claire' to group 'guest'...";
 echo $acl->addRole(new Role('Claire'), array('guest')) ? 'ok' : 'error';

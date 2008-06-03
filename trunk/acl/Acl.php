@@ -31,14 +31,16 @@ class Acl implements AclInterface
 		return false;
 	}
 	
-	public function addRole(RoleInterface $role, $parents = array())
+	public function addRole(RoleInterface $role, $parent = null)
 	{
 		$roleId = $role->getId();
 		
 		if ($this->roleExists($roleId))
 			throw new AclException('Trying to add already existent role (ID: ' . $roleId . ').');
+		else if ($parent != null && !$this->roleExists($parent->getId()))
+			throw new AclException('Trying to link role to non existing parent (ID: ' . $roleId . ', PARENT ID: ' . $parent->getId() . ').');
 		else
-			return $this->_store->addRole($roleId);
+			return $this->_store->addRole($role, $parent);
 	}
 
 	public function getRole($roleId)

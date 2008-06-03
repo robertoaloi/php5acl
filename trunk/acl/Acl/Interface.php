@@ -7,13 +7,13 @@ interface AclInterface
 	
 	public function reset();
 	
-	public function addRole(RoleInterface $role, $parents = array());
+	public function addRole(RoleInterface $role, $parent = null);
 	public function deleteRole(string $roleId);
 	public function deleteAllRoles();
 	public function roleExists($roleId);
 	public function getRole($roleId);
 	
-	public function addResource(Resource $resource, $parents = array());
+	public function addResource(Resource $resource, $parent = null);
 	public function deleteResource(string $resourceId);
 	public function deleteAllResources();
 	public function resourceExists(string $resourceId);
