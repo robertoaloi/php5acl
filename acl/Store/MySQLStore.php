@@ -54,9 +54,14 @@ class MySQLStore implements StoreInterface
 		
 	}
 	
-	public function addRole($roleId)
+	public function addRole(RoleInterface $role, $parent)
 	{
-		return $this->query("INSERT INTO roles VALUES ('" . $roleId . "')") ? true : false;
+		if (!is_object($parent))
+			$parentId = null;
+		else
+			$parentId = $parent->getId();
+		
+		return $this->query("INSERT INTO roles VALUES ('" . $role->getId() . "', '" . $parentId . "')") ? true : false;
 	}
 	
 	public function deleteAllRoles()
