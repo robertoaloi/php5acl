@@ -13,20 +13,24 @@ interface AclInterface
 	public function roleExists($roleId);
 	public function getRole($roleId);
 	
-	public function addResource(Resource $resource, $parent = null);
+	public function addResource(ResourceInterface $resource, ResourceInterface $parent = null);
 	public function deleteResource(string $resourceId);
 	public function deleteAllResources();
-	public function resourceExists(string $resourceId);
+	public function ResourceExists($resourceId);
+	public function getResource($resourceId);
 	
-	public function addPermission(Permission $resource);
+	public function addPermission(PermissionInterface $permission, PermissionInterface $parent = null);
 	public function deletePermission(string $permissionId);
 	public function deleteAllPermissions();
-	public function permissionExists(string $permissionId);
-	
-	public function addRule(Rule $rule);
+	public function permissionExists($permissionId);
+	public function getPermission($permissionId);
+
+	public function addRule(RuleInterface $rule, RuleInterface $parent = null);
 	public function deleteRule(string $ruleId);
 	public function deleteAllRules();
-	public function ruleExists(string $ruleId); // FIXME: Not sure about its utility
+	public function ruleExists($ruleId);
+	public function getRule($ruleId);
+
 }
 
 ?>

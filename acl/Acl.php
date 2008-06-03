@@ -65,40 +65,7 @@ class Acl implements AclInterface
 	{
 		return $this->_store->roleExists((string) $roleId);
 	}
-	
-	public function addResource(Resource $resource, $parents = array())
-	{
-		
-	}
-	
-	public function deleteResource(string $resourceId)
-	{
-		
-	}
-	
-	public function deleteAllResources()
-	{
-		return $this->_store->deleteAllResources();
-	}
-	
-	public function resourceExists(string $resourceId){}
-	
-	public function addPermission(Permission $resource){}
-	public function deletePermission(string $permissionId){}
-	public function deleteAllPermissions()
-	{
-		return $this->_store->deleteAllPermissions();
-	}
-	public function permissionExists(string $permissionId){}
-	
-	public function addRule(Rule $rule){}
-	public function deleteRule(string $ruleId){}
-	public function deleteAllRules()
-	{
-		return $this->_store->deleteAllRules();
-	}
-	public function ruleExists(string $ruleId){} // FIXME: Not sure about its utility
-	
+
 }
 	
 ?>
