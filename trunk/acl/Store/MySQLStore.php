@@ -56,7 +56,27 @@ class MySQLStore implements StoreInterface
 	
 	public function addRole($roleId)
 	{
-		$this->query("INSERT INTO roles VALUES ('" . $roleId . "')");
+		return $this->query("INSERT INTO roles VALUES ('" . $roleId . "')") ? true : false;
+	}
+	
+	public function deleteAllRoles()
+	{
+		return $this->query("TRUNCATE TABLE roles") ? true : false;
+	}
+	
+	public function deleteAllResources()
+	{
+		return $this->query("TRUNCATE TABLE resources") ? true : false;		
+	}
+	
+	public function deleteAllPermissions()
+	{
+		return $this->query("TRUNCATE TABLE permissions") ? true : false;
+	}
+	
+	public function deleteAllRules()
+	{
+		return $this->query("TRUNCATE TABLE rules") ? true : false;
 	}
 	
 	public function getRole($roleId)
