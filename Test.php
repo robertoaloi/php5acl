@@ -15,7 +15,9 @@ $acl = new Acl(new MysqlStore(array('dbhost' => '127.0.0.1',
 									'dbport' => '8889', 
 									'dbname' => 'acl_test',
 									'dbuser' => 'root',
-									'dbpass' => 'root')));
+									'dbpass' => 'root',
+									'prefix' => ''
+									)));
 
 // Add some new roles
 echo $acl->addRole(new Role('guest')) ? 'ok' : 'error';

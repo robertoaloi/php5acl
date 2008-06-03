@@ -20,10 +20,12 @@ class Acl implements AclInterface
 	
 	public function addRole(RoleInterface $role, $parents = array())
 	{
-		if ($this->roleExists($role->getId()))
-			throw new AclException('Trying to add already existent role.');
+		$roleId = $role->getId();
+		
+		if ($this->roleExists($roleId))
+			throw new AclException('Trying to add already existent role (ID: ' . $roleId . ').');
 		else
-			return $this->_store->addRole($role, $parents);
+			return $this->_store->addRole($roleId);
 	}
 
 	public function getRole($roleId)
