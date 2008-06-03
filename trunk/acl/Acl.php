@@ -140,12 +140,12 @@ class Acl implements AclInterface
 		else if ($parent != null && !$this->entryExists($parent->getId(), $entryType))
 			throw new AclException('Trying to link ' . $entryType . ' to non existing parent (ID: ' . $entryId . ', PARENT ID: ' . $parent->getId() . ').');
 		else
-			return $this->_store->addEntry($role, $parent, $entryType);
+			return $this->_store->addEntry($entry, $parent, $entryType);
 	}
 	
 	public function getEntry($entryId, $entryType)
 	{
-		if (!$this->entryExists((string) $entryId))
+		if (!$this->entryExists((string) $entryId, $entryType))
 			throw new AclException('Trying to get a not existing ' . $entryType. ' (ID: ' .  $entryId . ').');
 		else
 			return $this->_store->getEntry((string) $entryId, $entryType);
@@ -161,7 +161,7 @@ class Acl implements AclInterface
 	
 	public function entryExists($entryId, $entryType)
 	{
-		return $this->_store->entryExists((string) $ruleId, 'RULE');
+		return $this->_store->entryExists((string) $entryId, $entryType);
 	}
 
 	public function deleteAllEntries($entryType)

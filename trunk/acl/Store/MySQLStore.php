@@ -55,24 +55,24 @@ class MySQLStore implements StoreInterface
 		
 	}
 	
-	public function addRole(RoleInterface $role, $parent)
+	public function addEntry($entry, $parent, $entryType)
 	{
 		if (!is_object($parent))
 			$parentId = null;
 		else
 			$parentId = $parent->getId();
-		
-		return $this->query("INSERT INTO roles VALUES ('" . $role->getId() . "', '" . $parentId . "')") ? true : false;
+		//FIXME: Type check for $entry!!!
+		return $this->query("INSERT INTO " . $this->_map[(string) $entryType] . " VALUES ('" . $entry->getId() . "', '" . $parentId . "')") ? true : false;
 	}
 	
 	public function deleteAllEntries($entryType)
 	{
-		return $this->query('TRUNCATE TABLE ' . $this->_map[(string) $entryType]) ? true : false;
+		return $this->query("TRUNCATE TABLE " . $this->_map[(string) $entryType]) ? true : false;
 	}
 	
-	public function getRole($roleId)
+	public function getEntry($entryId, $entryType)
 	{
-		$result = $this->query("SELECT id FROM roles WHERE id = '" . $roleId . "'");
+		$result = $this->query("SELECT id FROM " . $this->_map[(string) $entryType] . " WHERE id = '" . $entryId . "'");
 		if ($row = mysql_fetch_object($result)){
 			return new Role($row->id); // FIXME: Break encapsulation
 		}
