@@ -31,7 +31,7 @@ class Acl implements AclInterface
 		return false;
 	}
 	
-	public function addRole(RoleInterface $role, $parent = null)
+	public function addRole(RoleInterface $role, RoleInterface $parent = null)
 	{
 		$roleId = $role->getId();
 		
