@@ -6,10 +6,10 @@ class Role implements RoleInterface
 {
 	private $_id;
 	
-	public function Role($roleId)
-	{
-		$this->_id = (string) $roleId;
-	}
+	public function Role($id)
+    {
+        $this->_id = (string) $id;
+    }
 	
 	public function getId()
 	{
