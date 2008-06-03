@@ -3,8 +3,8 @@
 interface  StoreInterface
 {
 
-	public function addRole(RoleInterface $role, $parent);
-	public function deleteAllEntries($etryType);
+	public function addEntry($entry, $parent, $entryType);
+	public function deleteAllEntries($entryType);
 
 }
 
