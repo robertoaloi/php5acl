@@ -36,7 +36,7 @@ $acl->addPermission(new Permission($acl->getResource('forum'), 'post'));
 $acl->addPermission(new Permission($acl->getResource('addressBook'), array('display')));
 
 // Add some rules
-$acl->addRule(new Allow($acl->getRole('registerd'), $acl->getResource('forum')));
+$acl->addRule(new Allow($acl->getRole('registered'), $acl->getResource('forum')));
 $acl->addRule(new Deny($acl->getRole('Claire'), $acl->getResource('forum'), array('post')));
 
 // Let's try some rights

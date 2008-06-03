@@ -30,11 +30,11 @@ class MySQLStore implements StoreInterface
 	}
 
 	private function query($query)
-	{echo "A"; print_r($this->_link);
+	{
 		if ($this->_link)
-		{echo "B";
+		{
 			if (mysql_select_db($this->_dbname))
-			{echo "C";
+			{
 				return mysql_query($query);
 			}
 			throw Exception;
@@ -51,7 +51,12 @@ class MySQLStore implements StoreInterface
 	public function addRole(RoleInterface $role, $parents = array())
 	{// FIXME: prefix
 		// FIXME: create tables
-		$this->query("INSERT INTO roles VALUES (null, '" . $role->getId() . "')");
+		$this->query("INSERT INTO roles VALUES ('" . $role->getId() . "')");
+	}
+	
+	public function roleExists($roleId)
+	{
+		$this->query("SELECT * FROM roles WHERE id = '" . $roleId . "'");
 	}
 	
 }

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Acl/Interface.php';
+require_once 'Exception.php';
 
 class Acl implements AclInterface
 {
@@ -19,9 +20,20 @@ class Acl implements AclInterface
 	
 	public function addRole(RoleInterface $role, $parents = array())
 	{
-		return $this->_store->addRole($role, $parents);
+		if ($this->roleExists($role->getId()))
+			throw new AclException('Trying to add already existent role.');
+		else
+			return $this->_store->addRole($role, $parents);
 	}
 
+	public function getRole($roleId)
+	{
+		if (!$this->roleExists((string) $roleId))
+			throw new AclException('Trying to get a not existing role.');
+		else
+			return $this->_store->getRole((string) $roleId);
+	}
+	
 	public function deleteRole(string $roleId)
 	{
 		return $this->_store->deleteRole($roleId);
@@ -32,9 +44,9 @@ class Acl implements AclInterface
 		return $this->_store->deleteAllRoles();
 	}
 	
-	public function roleExists(string $roleId)
+	public function roleExists($roleId)
 	{
-		return $this->_store->roleExists($roleId);
+		return $this->_store->roleExists((string) $roleId);
 	}
 	
 	public function addResource(Resource $resource, $parents = array())
