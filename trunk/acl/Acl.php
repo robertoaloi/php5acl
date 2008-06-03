@@ -13,7 +13,7 @@ class Acl implements AclInterface
 		$this->_store = $store;
 	}
 	
-	public function check(RoleInterface $role, ResourceInterface $resource, PermissionInterface $permission)
+	public function check(RoleInterface $resource, ResourceInterface $resource, PermissionInterface $permission)
 	{
 		
 	}
@@ -33,39 +33,142 @@ class Acl implements AclInterface
 	
 	public function addRole(RoleInterface $role, RoleInterface $parent = null)
 	{
-		$roleId = $role->getId();
-		
-		if ($this->roleExists($roleId))
-			throw new AclException('Trying to add already existent role (ID: ' . $roleId . ').');
-		else if ($parent != null && !$this->roleExists($parent->getId()))
-			throw new AclException('Trying to link role to non existing parent (ID: ' . $roleId . ', PARENT ID: ' . $parent->getId() . ').');
-		else
-			return $this->_store->addRole($role, $parent);
+		return $this->add($role, $parent, 'ROLE');
 	}
 
+	public function addResource(ResourceInterface $resource, ResourceInterface $parent = null)
+	{
+		return $this->add($resource, $parent, 'RESOURCE');
+	}
+	
+	public function addPermission(PermissionInterface $permission, PermissionInterface $parent = null)
+	{
+		return $this->add($permission, $parent, 'PERMISSION');
+	}
+	
+	public function addRule(RuleInterface $rule, RuleInterface $parent = null)
+	{
+		return $this->add($rule, $parent, 'RULE');
+	}
+	
 	public function getRole($roleId)
 	{
-		if (!$this->roleExists((string) $roleId))
-			throw new AclException('Trying to get a not existing role.');
-		else
-			return $this->_store->getRole((string) $roleId);
+		return $this->getEntry($roleId, 'ROLE');
+	}
+	
+	public function getResource($resourceId)
+	{
+		return $this->getEntry($resourceId, 'RESOURCE');
+	}
+	
+	public function getPermission($permissionId)
+	{
+		return $this->getEntry($permissionId, 'PERMISSION');
+	}
+	
+	public function getRule($ruleId)
+	{
+		return $this->getEntry($ruleId, 'RULE');
 	}
 	
 	public function deleteRole(string $roleId)
 	{
-		return $this->_store->deleteRole($roleId);
+		return $this->deleteEntry($roleId, 'ROLE');
+	}
+	
+	public function deleteResource(string $resourceId)
+	{
+		return $this->deleteEntry($resourceId, 'RESOURCE');
+	}
+	
+	public function deletePermission(string $permissionId)
+	{
+		return $this->deleteEntry($permissionId, 'PERMISSION');
+	}
+	
+	public function deleteRule(string $ruleId)
+	{
+		return $this->deleteEntry($ruleId, 'RULE');
 	}
 	
 	public function deleteAllRoles()
 	{
-		return $this->_store->deleteAllRoles();
+		return $this->deleteAllEntries('ROLE');
+	}
+	
+	public function deleteAllResources()
+	{
+		return $this->deleteAllEntries('RESOURCE');
+	}
+	
+	public function deleteAllPermissions()
+	{
+		return $this->deleteAllEntries('PERMISSION');
+	}
+	
+	public function deleteAllRules()
+	{
+		return $this->deleteAllEntries('RULE');
 	}
 	
 	public function roleExists($roleId)
 	{
-		return $this->_store->roleExists((string) $roleId);
+		return $this->entryExists((string) $roleId, 'ROLE');
+	}
+	
+	public function resourceExists($resourceId)
+	{
+		return $this->entryExists((string) $resourceId, 'RESOURCE');
+	}
+	
+	public function permissionExists($permissionId)
+	{
+		return $this->entryExists((string) $permissionId, 'PERMISSION');
+	}
+	
+	public function ruleExists($ruleId)
+	{
+		return $this->entryExists((string) $ruleId, 'RULE');
+	}
+	
+	private function add($entry, $parent, $entryType)
+	{
+		$entryId = $entry->getId();
+		
+		if ($this->entryExists($entryId, $entryType))
+			throw new AclException('Trying to add already existent role' . $entryType . ' (ID: ' . $entryId . ').');
+		else if ($parent != null && !$this->entryExists($parent->getId(), $entryType))
+			throw new AclException('Trying to link ' . $entryType . ' to non existing parent (ID: ' . $entryId . ', PARENT ID: ' . $parent->getId() . ').');
+		else
+			return $this->_store->addEntry($role, $parent, $entryType);
+	}
+	
+	public function getEntry($entryId, $entryType)
+	{
+		if (!$this->entryExists((string) $entryId))
+			throw new AclException('Trying to get a not existing ' . $entryType. ' (ID: ' .  $entryId . ').');
+		else
+			return $this->_store->getEntry((string) $entryId, $entryType);
 	}
 
+	public function deleteEntry(string $entryId)
+	{
+		if (!$this->entryExists((string) $entryId))
+			throw new AclException('Trying to delete a not existing ' . $entryType . ' (ID: ' . $entryId . ').');
+		else
+			return $this->_store->deleteEntry((string) $entryId, $entryType);
+	}
+	
+	public function entryExists($entryId, $entryType)
+	{
+		return $this->_store->entryExists((string) $ruleId, 'RULE');
+	}
+
+	public function deleteAllEntries($entryType)
+	{
+		return $this->_store->deleteAllEntries($entryType);
+	}
+	
 }
 	
 ?>
