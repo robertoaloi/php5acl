@@ -10,6 +10,11 @@ class MySQLStore implements StoreInterface
 	private $_dbname;
 	private $_dbuser;
 	private $_dbpass;
+	private $_prefix;
+	
+	const ROLES = 'roles';
+	const RESOURCES = 'resources';
+	const PERMISSIONS = 'permissions';
 	
 	private $_link; //FIXME: close connections!!!
 	
@@ -20,8 +25,9 @@ class MySQLStore implements StoreInterface
 		$this->_dbname = $options['dbname'];
 		$this->_dbuser = $options['dbuser'];
 		$this->_dbpass = $options['dbpass'];
-		
-		$this->connect();
+		$this->_prefix = $options['prefix'];
+
+		$this->connect(); // FIXME: connect at each request?
 	}
 	
 	private function connect()
@@ -37,9 +43,9 @@ class MySQLStore implements StoreInterface
 			{
 				return mysql_query($query);
 			}
-			throw Exception;
+			throw new Exception('Impossible to connect to database.');
 		}
-		throw Exception;
+		throw new Exception('MySQL Link error');
 
 	}
 	
@@ -48,15 +54,25 @@ class MySQLStore implements StoreInterface
 		
 	}
 	
-	public function addRole(RoleInterface $role, $parents = array())
-	{// FIXME: prefix
-		// FIXME: create tables
-		$this->query("INSERT INTO roles VALUES ('" . $role->getId() . "')");
+	public function addRole($roleId)
+	{
+		$this->query("INSERT INTO roles VALUES ('" . $roleId . "')");
+	}
+	
+	public function getRole($roleId)
+	{
+		$result = $this->query("SELECT * FROM roles WHERE id = '" . $roleId . "'");
+		if (mysql_fetch_row($result))
+			return new Role($result['id']); // FIXME: Break encapsulation
+		return null;
 	}
 	
 	public function roleExists($roleId)
 	{
-		$this->query("SELECT * FROM roles WHERE id = '" . $roleId . "'");
+		if ($this->getRole($roleId))
+			return true;
+		else
+			return false;
 	}
 	
 }
