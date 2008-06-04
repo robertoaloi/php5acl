@@ -2,7 +2,7 @@
 
 = What php5acl Are =
 
-php5acl represent an object oriented set of libraries written in php 5 and implementing a generic access control mechanism based on Access Control List.
+php5acl represent an object oriented set of libraries written in php 5, implementing a generic access control mechanism based on Access Control List.
 
 = How to Contribute =
 
