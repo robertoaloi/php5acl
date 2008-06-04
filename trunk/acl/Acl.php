@@ -33,22 +33,22 @@ class Acl implements AclInterface
 	
 	public function addRole(RoleInterface $role, RoleInterface $parent = null)
 	{
-		return $this->add($role, $parent, 'ROLE');
+		return $this->addEntry($role, $parent, 'ROLE');
 	}
 
 	public function addResource(ResourceInterface $resource, ResourceInterface $parent = null)
 	{
-		return $this->add($resource, $parent, 'RESOURCE');
+		return $this->addEntry($resource, $parent, 'RESOURCE');
 	}
 	
 	public function addPermission(PermissionInterface $permission, PermissionInterface $parent = null)
 	{
-		return $this->add($permission, $parent, 'PERMISSION');
+		return $this->addEntry($permission, $parent, 'PERMISSION');
 	}
 	
 	public function addRule(RuleInterface $rule, RuleInterface $parent = null)
 	{
-		return $this->add($rule, $parent, 'RULE');
+		return $this->addEntry($rule, $parent, 'RULE');
 	}
 	
 	public function getRole($roleId)
@@ -131,7 +131,7 @@ class Acl implements AclInterface
 		return $this->entryExists((string) $ruleId, 'RULE');
 	}
 	
-	private function add($entry, $parent, $entryType)
+	private function addEntry($entry, $parent, $entryType)
 	{
 		$entryId = $entry->getId();
 		
@@ -143,7 +143,7 @@ class Acl implements AclInterface
 			return $this->_store->addEntry($entry, $parent, $entryType);
 	}
 	
-	public function getEntry($entryId, $entryType)
+	private function getEntry($entryId, $entryType)
 	{
 		if (!$this->entryExists((string) $entryId, $entryType))
 			throw new AclException('Trying to get a not existing ' . $entryType. ' (ID: ' .  $entryId . ').');
@@ -151,7 +151,7 @@ class Acl implements AclInterface
 			return $this->_store->getEntry((string) $entryId, $entryType);
 	}
 
-	public function deleteEntry(string $entryId)
+	private function deleteEntry(string $entryId)
 	{
 		if (!$this->entryExists((string) $entryId))
 			throw new AclException('Trying to delete a not existing ' . $entryType . ' (ID: ' . $entryId . ').');
@@ -159,12 +159,12 @@ class Acl implements AclInterface
 			return $this->_store->deleteEntry((string) $entryId, $entryType);
 	}
 	
-	public function entryExists($entryId, $entryType)
+	private function entryExists($entryId, $entryType)
 	{
 		return $this->_store->entryExists((string) $entryId, $entryType);
 	}
 
-	public function deleteAllEntries($entryType)
+	private function deleteAllEntries($entryType)
 	{
 		return $this->_store->deleteAllEntries($entryType);
 	}
